@@ -3,7 +3,7 @@ package com.shuke.kotlin
 import com.shuke.kotlin.javaclass.View
 
 /**
- * Lambda和java的相互调用
+ * Lambda在java函数式接口中的使用
  */
 fun main(args: Array<String>) {
     /**

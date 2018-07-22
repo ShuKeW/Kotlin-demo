@@ -13,14 +13,14 @@ public class Lambda4 {
         /**
          * 方法一：通过java8的lambda
          */
-        String result1 = Lambda3Kt.filterString("a1s2d3f4", character -> character >= 'a' && character <= 'z');
+        String result1 = Lambda3Kt.filterString1("a1s2d3f4", character -> character >= 'a' && character <= 'z');
         System.out.println("result1:"+result1);
 
         /**
          * 方法二：通过匿名内部类
          *        原理：一个函数类型被申明成接口FunctionN，N表示参数个数，比如Function1，Function2，都是kotlin定义好的接口
          */
-        String result2 = Lambda3Kt.filterString("a1s2d3f4", new Function1<Character, Boolean>() {
+        String result2 = Lambda3Kt.filterString1("a1s2d3f4", new Function1<Character, Boolean>() {
             @Override
             public Boolean invoke(Character character) {
                 return character >= 'a' && character <= 'z';
