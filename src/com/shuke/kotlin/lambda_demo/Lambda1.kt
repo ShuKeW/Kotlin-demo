@@ -1,4 +1,4 @@
-package com.shuke.kotlin
+package com.shuke.kotlin.lambda_demo
 
 import com.shuke.kotlin.bean.Persion
 

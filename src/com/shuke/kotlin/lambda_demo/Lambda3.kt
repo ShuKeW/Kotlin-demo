@@ -1,5 +1,6 @@
-package com.shuke.kotlin
+package com.shuke.kotlin.lambda_demo
 
+import com.shuke.kotlin.bean.Persion
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 
@@ -34,6 +35,23 @@ fun main(args: Array<String>) {
     val testInlineClass = TestInlineClass()
     testInlineClass.foo1(ReentrantLock())
     testInlineClass.foo2(ReentrantLock()) { println("foo2 action") }
+
+    /**
+     * 使用五
+     */
+    val controlReturnStream = ControlReturnStream()
+    val persionList = listOf<Persion>(Persion("ShuKe", 28, "beijing"), Persion("BeiTai", 28, "beijing"), Persion("KaKa", 28, "beijing"), Persion("Kobe", 28, "beijing"))
+    controlReturnStream.lookForShuKe(persionList)
+    controlReturnStream.lookForBeiTai(persionList) label@{
+        println("lookForBeiTai labmda:${it.name}")
+        if (it.name == "KaKa") {
+            //******这个return是从main函数返回******
+            //return
+            return@label false
+        }
+        it.name == "BeiTai"
+    }
+    controlReturnStream.lookForKaKa(persionList)
 }
 
 /**
@@ -162,5 +180,50 @@ private class TestInlineClass {
 }
 
 /**
- * 使用五：控制流
+ * 使用五：高阶函数的控制流
+ *        1、return和返回值的区别
+ *              因为kotlin中的表达式都有值，因此最后一个表达式的值就是返回值。当然，也可以使用return，return和java中的意思是一样的。
+ *        2、在lambda中使用return：
+ *              2.1、只有在使用lambda作为参数的函数是内联的情况下，lambda中才可以使用return（例子中forEach和lookForBeiTai都是有lambda形参的内联函数）
+ *                   且，这个return是从外层的函数返回
+ *              2.2、使用标签返回
+ *                   1、在lambda之前放一个标签：标签名@，在lambda里边就可以通过 return@标签名 来返回以lambda为参数的方法。也可不指定标签名，用return@方法名
  * */
+private class ControlReturnStream {
+
+    /**
+     * return直接从lookForShuKe返回,而不是forEach方法
+     */
+    fun lookForShuKe(persionList: List<Persion>) {
+        persionList.forEach {
+            if (it.name == "ShuKe") {
+                println("found ShuKe!")
+                return
+            }
+        }
+        println("ShuKe is not found!")
+    }
+
+    inline fun lookForBeiTai(persionList: List<Persion>, action: (Persion) -> Boolean) {
+        for (persion in persionList) {
+            if (action(persion)) {
+                println("found BeiTai!")
+            }
+        }
+        println("BeiTai is not found!")
+    }
+
+    /**
+     * 加了标签，就可以返回到forEach，即循环中断，继续循环后边的代码，和continue一样
+     */
+    fun lookForKaKa(persionList: List<Persion>) {
+        println("lookForKaKa")
+        persionList.forEach circulation@{
+            if (it.name == "KaKa") {
+                println("found KaKa!")
+                return@circulation
+            }
+        }
+        println("lookForKaKa end!")
+    }
+}
