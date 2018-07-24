@@ -1,6 +1,6 @@
 package com.shuke.kotlin.lambda_demo
 
-import com.shuke.kotlin.javaclass.View
+import com.shuke.kotlin.lambda_demo.javaclass.View
 
 /**
  * Lambda在java函数式接口中的使用
@@ -26,14 +26,14 @@ fun main(args: Array<String>) {
  *        使用：kotlin中调用函数式接口作为参数的方法的时候，可以使用lambda作为函数式接口的实参
  *        原理：编译器遇到一个lambda实参的时候，会生成类，然后在调用处创建了一个匿名内部类
  *        反编译后的代码：
- *        class TestFunctionInterface$1(val button:View):OnClickListener{
- *              override fun onClick(val button:View){
+ *        class TestFunctionInterface$1(val button:ScrollView):OnClickListener{
+ *              override fun onClick(val button:ScrollView){
  *                      //lambda的代码块作为了唯一方法的方法体
  *                      pringln(button)
  *              }
  *        }
  *        private fun testFunctionInterface(){
- *          val button = View()
+ *          val button = ScrollView()
  *          button.setOnClickListener(testFunctionInterface(button))
  *        }
  *        注意：java中每次调用testFunctionInterface的时候都会创建一个匿名内部类对象
