@@ -19,13 +19,6 @@ fun main(args: Array<String>) {
     val list = listOf<String>("a", "b", "c", "d", "e");
     println("list中的第3个元素：${list[2]}")
 
-    /**
-     * 委托属性
-     */
-    val filedBy = FiledBy()
-    println(filedBy.arg1)
-
-
 }
 
 
